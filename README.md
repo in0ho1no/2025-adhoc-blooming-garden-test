@@ -1,6 +1,18 @@
-# 🌱 Blooming Garden 自動プレイヤー 🌸
+![Development](https://img.shields.io/badge/environment-development-orange)
+[![Production](https://img.shields.io/badge/stable-version-brightgreen)](https://github.com/in0ho1no/2025-adhoc-blooming-garden)
+![Made with AI](https://img.shields.io/badge/made%20with-AI-blue)
+![Vibe Coding](https://img.shields.io/badge/vibe-coding-purple)
 
-このプロジェクトは、[Blooming Garden](https://in0ho1no.github.io/2025-adhoc-blooming-garden/)（2048風ゲーム）を自動でプレイするPythonスクリプトです。
+
+# 🧪 Blooming Garden - テスト環境
+
+> ⚠️ **これは開発・検証用のリポジトリです**  
+> 安定版は[メインリポジトリ](https://github.com/in0ho1no/2025-adhoc-blooming-garden)をご覧ください
+
+このリポジトリは新機能の実験やバグ修正の検証に使用されています。
+
+**🎮 安定版でプレイ**: [https://in0ho1no.github.io/2025-adhoc-blooming-garden/](https://in0ho1no.github.io/2025-adhoc-blooming-garden/)  
+
 
 ## 📋 必要要件
 
