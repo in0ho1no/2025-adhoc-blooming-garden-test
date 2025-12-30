@@ -1,10 +1,11 @@
 [project]
 name = "2025-adhoc-blooming-garden-test"
 version = "0.1.0"
-description = "Add your description here"
+description = "Automated testing and gameplay for Blooming Garden 2048-style game"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "playwright>=1.40.0",
 ]
 
 [tool.ruff]
@@ -84,4 +85,3 @@ ignore_missing_imports = true
 exclude = [
     "docs/source/conf\\.py$", # . はエスケープ
 ]
-
