@@ -217,20 +217,6 @@ await asyncio.sleep(0.15)  # この値を変更（秒）
 
 MIT License
 
-## 🤝 貢献
-
-プルリクエストを歓迎します！
-
-1. このリポジトリをフォーク
-2. フィーチャーブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. プルリクエストを作成
-
-## 🐛 問題報告
-
-バグや問題を見つけた場合は、Issueを作成してください。
-
 ## 📚 参考リンク
 
 - [Blooming Garden（ゲーム本体）](https://in0ho1no.github.io/2025-adhoc-blooming-garden/)
