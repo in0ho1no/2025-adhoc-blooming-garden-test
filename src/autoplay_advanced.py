@@ -1,11 +1,12 @@
-"""2048風ゲーム自動プレイスクリプト（高度な戦略版）
+"""2048風ゲーム自動プレイスクリプト(高度な戦略版)
 
 グリッドの状態を読み取り、より賢い戦略で2048を目指します。
 """
 
 import asyncio
 import re
-from playwright.async_api import async_playwright, Page
+
+from playwright.async_api import Page, async_playwright
 
 
 class AdvancedGame2048AutoPlayer:
@@ -29,7 +30,7 @@ class AdvancedGame2048AutoPlayer:
             page: Playwrightのページオブジェクト
 
         Returns:
-            4x4のグリッド（各セルの値）
+            4x4のグリッド(各セルの値)
         """
         grid = [[0 for _ in range(4)] for _ in range(4)]
 
@@ -108,10 +109,10 @@ class AdvancedGame2048AutoPlayer:
         return max_pos
 
     def select_next_move(self, grid: list[list[int]], move_count: int) -> str:
-        """次の移動方向を選択（高度な戦略）
+        """次の移動方向を選択(高度な戦略)
 
         戦略:
-        1. 最大タイルを左下隅（row=3, col=0）に維持
+        1. 最大タイルを左下隅(row=3, col=0)に維持
         2. 2番目に大きいタイルを最大タイルの隣に配置
         3. 降順に並べることを目指す
 
@@ -120,7 +121,7 @@ class AdvancedGame2048AutoPlayer:
             move_count: 現在の移動回数
 
         Returns:
-            次の移動方向（'a', 's', 'd', 'w'）
+            次の移動方向('a', 's', 'd', 'w')
         """
         max_pos = self.find_max_tile_position(grid)
         target_row, target_col = 3, 0  # 左下隅
@@ -139,11 +140,11 @@ class AdvancedGame2048AutoPlayer:
         # スネーク戦略: 左下から始まって右上に向かう順序
         pattern = ['a', 's', 's', 'a', 's', 'a', 'a', 's']
 
-        # 20手に1回は上を使う（行き詰まり回避）
+        # 20手に1回は上を使う(行き詰まり回避)
         if move_count % 20 == 19:
             return 'w'
 
-        # 50手に1回は右を使う（強制的な変化）
+        # 50手に1回は右を使う(強制的な変化)
         if move_count % 50 == 49:
             return 'd'
 
@@ -168,70 +169,81 @@ class AdvancedGame2048AutoPlayer:
 
             print(f'🎮 ゲームを開始します: {self.url}')
             await page.goto(self.url)
-            await asyncio.sleep(2)  # ページ読み込み待機
+
+            print('⏱️  録画準備のため5秒待機します...')
+            await asyncio.sleep(5)  # 録画準備のための待機
 
             # ゲーム開始
-            print('🌱 ゲームスタート！')
+            print('🌱 ゲームスタート!')
+            print('⚠️  終了するには: Ctrl+C を押してください')
+            print('')
             self.move_count = 0
             self.max_tile = 0
             previous_max = 0
             stuck_moves = 0
 
-            while True:
-                # ゲーム状態を取得
-                state = await self.get_game_state(page)
-                grid = state['grid']
+            try:
+                while True:
+                    # ゲーム状態を取得
+                    state = await self.get_game_state(page)
+                    grid = state['grid']
 
-                # 最大タイルの更新を記録
-                if state['max_tile'] > self.max_tile:
-                    self.max_tile = state['max_tile']
-                    print(f'🌸 新しいタイルに到達: {self.max_tile} (スコア: {state["score"]}, 移動回数: {self.move_count})')
-                    self.stuck_counter = 0  # リセット
-                    stuck_moves = 0
-
-                # 進捗がない場合のカウント
-                if state['max_tile'] == previous_max:
-                    stuck_moves += 1
-                    if stuck_moves > 100:
-                        self.stuck_counter += 1
+                    # 最大タイルの更新を記録
+                    if state['max_tile'] > self.max_tile:
+                        self.max_tile = state['max_tile']
+                        print(f'🌸 新しいタイルに到達: {self.max_tile} (スコア: {state["score"]}, 移動回数: {self.move_count})')
+                        self.stuck_counter = 0  # リセット
                         stuck_moves = 0
-                        print(f'⚠️  行き詰まり検出: {self.stuck_counter} (戦略を変更中...)')
-                else:
-                    stuck_moves = 0
 
-                previous_max = state['max_tile']
+                    # 進捗がない場合のカウント
+                    if state['max_tile'] == previous_max:
+                        stuck_moves += 1
+                        if stuck_moves > 100:
+                            self.stuck_counter += 1
+                            stuck_moves = 0
+                            print(f'⚠️  行き詰まり検出: {self.stuck_counter} (戦略を変更中...)')
+                    else:
+                        stuck_moves = 0
 
-                # 2048到達チェック
-                if state['max_tile'] >= 2048:
-                    print(f'🎊 おめでとうございます！2048に到達しました！')
-                    print(f'📊 最終スコア: {state["score"]}')
-                    print(f'🎯 移動回数: {self.move_count}')
-                    break
+                    previous_max = state['max_tile']
 
-                # ゲームオーバーチェック
-                if state['game_over']:
-                    print(f'💀 ゲームオーバー')
-                    print(f'📊 最終スコア: {state["score"]}')
-                    print(f'🌺 到達した最大タイル: {self.max_tile}')
-                    print(f'🎯 移動回数: {self.move_count}')
-                    break
+                    # 2048到達チェック
+                    if state['max_tile'] >= 2048:
+                        print('🎊 おめでとうございます!2048に到達しました!')
+                        print(f'📊 最終スコア: {state["score"]}')
+                        print(f'🎯 移動回数: {self.move_count}')
+                        break
 
-                # 500手でタイムアウト（無限ループ防止）
-                if self.move_count > 500:
-                    print(f'⏱️  タイムアウト: 500手を超えました')
-                    break
+                    # ゲームオーバーチェック
+                    if state['game_over']:
+                        print('💀 ゲームオーバー')
+                        print(f'📊 最終スコア: {state["score"]}')
+                        print(f'🌺 到達した最大タイル: {self.max_tile}')
+                        print(f'🎯 移動回数: {self.move_count}')
+                        break
 
-                # 次の移動を選択
-                move = self.select_next_move(grid, self.move_count)
-                await page.keyboard.press(move)
-                self.move_count += 1
+                    # 500手でタイムアウト(無限ループ防止)
+                    if self.move_count > 500:
+                        print('⏱️  タイムアウト: 500手を超えました')
+                        break
 
-                # 50手ごとに進捗を表示
-                if self.move_count % 50 == 0:
-                    print(f'📈 進捗: {self.move_count}手目 (最大タイル: {self.max_tile}, スコア: {state["score"]})')
+                    # 次の移動を選択
+                    move = self.select_next_move(grid, self.move_count)
+                    await page.keyboard.press(move)
+                    self.move_count += 1
 
-                # 少し待機（アニメーション完了を待つ）
-                await asyncio.sleep(0.15)
+                    # 50手ごとに進捗を表示
+                    if self.move_count % 50 == 0:
+                        print(f'📈 進捗: {self.move_count}手目 (最大タイル: {self.max_tile}, スコア: {state["score"]})')
+
+                    # 少し待機(アニメーション完了を待つ)
+                    await asyncio.sleep(0.15)
+
+            except KeyboardInterrupt:
+                print('\n\n⚠️  ユーザーによって中断されました')
+                print(f'📊 現在のスコア: {state.get("score", 0) if "state" in locals() else 0}')
+                print(f'🌺 到達した最大タイル: {self.max_tile}')
+                print(f'🎯 移動回数: {self.move_count}')
 
             print('\n✅ 自動プレイを終了しました')
 
@@ -244,7 +256,7 @@ async def main() -> None:
     """メイン関数"""
     url = 'https://in0ho1no.github.io/2025-adhoc-blooming-garden/'
 
-    print('🌱 Blooming Garden 自動プレイヤー（高度版） 🌸')
+    print('🌱 Blooming Garden 自動プレイヤー(高度版) 🌸')
     print('=' * 50)
     print(f'URL: {url}')
     print('戦略: グリッド状態を読み取り、最大タイルを左下隅に維持')
