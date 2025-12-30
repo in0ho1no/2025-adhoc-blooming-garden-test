@@ -145,8 +145,7 @@ class Game2048AutoPlayer:
                 # 少し待機（アニメーション完了を待つ）
                 await asyncio.sleep(0.15)
 
-            print('
-✅ 自動プレイを終了しました')
+            print('\n✅ 自動プレイを終了しました')
 
             # 結果を確認するために少し待機
             await asyncio.sleep(3)
