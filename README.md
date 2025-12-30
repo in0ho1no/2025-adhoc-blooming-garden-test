@@ -10,7 +10,16 @@
 
 ## 🚀 セットアップ
 
-### 方法1: 自動セットアップ（推奨）
+### 方法1: 自動セットアップ（バッチファイル版・推奨）
+
+1. `setup.bat` をダブルクリック
+2. 画面の指示に従う（英語表記）
+3. 完了！
+
+> **推奨理由**: バッチファイル版は実行ポリシーの設定が不要で、確実に動作します。
+> **注意**: 文字化け防止のため、メッセージは英語で表示されます。
+
+### 方法2: 自動セットアップ（PowerShell版）
 
 1. `setup.ps1` を右クリック → **「PowerShellで実行」**
 2. 画面の指示に従う
@@ -20,8 +29,13 @@
 > ```powershell
 > Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 > ```
+> 
+> **PowerShellウィンドウが一瞬で閉じる場合**:
+> 1. プロジェクトフォルダで **Shift + 右クリック**
+> 2. 「PowerShellウィンドウをここで開く」を選択
+> 3. `.\setup.ps1` を実行
 
-### 方法2: 手動セットアップ
+### 方法3: 手動セットアップ
 
 PowerShellを開いて：
 
@@ -60,6 +74,10 @@ playwright install chromium
 
 ### 簡単実行（推奨）
 
+#### バッチファイル版（確実）
+`run_autoplay.bat` をダブルクリック
+
+#### PowerShell版
 `run_autoplay.ps1` を右クリック → **「PowerShellで実行」**
 
 モード選択画面が表示されます：
@@ -68,7 +86,7 @@ playwright install chromium
 
 ### 手動実行
 
-PowerShellを開いて：
+PowerShellまたはコマンドプロンプトを開いて：
 
 #### 基本版の実行（シンプルな戦略）
 
@@ -204,9 +222,12 @@ await asyncio.sleep(0.15)  # この値を変更（秒）
 ├── src/
 │   ├── autoplay.py              # 基本版自動プレイスクリプト
 │   └── autoplay_advanced.py     # 高度版自動プレイスクリプト
-├── setup.ps1                    # 自動セットアップスクリプト
-├── run_autoplay.ps1             # 実行用スクリプト
+├── setup.bat                    # セットアップ（バッチファイル版・推奨）
+├── setup.ps1                    # セットアップ（PowerShell版）
+├── run_autoplay.bat             # 実行（バッチファイル版・推奨）
+├── run_autoplay.ps1             # 実行（PowerShell版）
 ├── pyproject.toml               # プロジェクト設定
+├── QUICKSTART.md                # クイックガイド
 ├── README.md                    # このファイル
 └── .gitignore                   # Git除外設定
 ```
