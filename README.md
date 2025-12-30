@@ -12,19 +12,26 @@
 
 ### 方法1: 自動セットアップ（推奨）
 
-1. `setup.bat` をダブルクリック
+1. `setup.ps1` を右クリック → **「PowerShellで実行」**
 2. 画面の指示に従う
 3. 完了！
 
+> **注意**: 初回実行時に「スクリプトの実行が無効」エラーが出る場合は、以下を実行：
+> ```powershell
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+> ```
+
 ### 方法2: 手動セットアップ
+
+PowerShellを開いて：
 
 #### uvを使用する場合（推奨）
 
-```cmd
+```powershell
 # uvのインストール（まだインストールしていない場合）
-powershell -Command "irm https://astral.sh/uv/install.ps1 | iex"
+irm https://astral.sh/uv/install.ps1 | iex
 
-# PowerShellまたはコマンドプロンプトを再起動
+# PowerShellを再起動
 
 # 依存関係のインストール
 uv sync
@@ -33,17 +40,45 @@ uv sync
 uv run playwright install chromium
 ```
 
+#### pipを使用する場合
+
+```powershell
+# 仮想環境の作成
+python -m venv .venv
+
+# 仮想環境の有効化
+.\.venv\Scripts\Activate.ps1
+
+# 依存関係のインストール
+pip install playwright
+
+# Playwrightのブラウザをインストール
+playwright install chromium
+```
+
 ## 🎮 使い方
 
-### 基本版の実行（シンプルな戦略）
+### 簡単実行（推奨）
 
-```cmd
+`run_autoplay.ps1` を右クリック → **「PowerShellで実行」**
+
+モード選択画面が表示されます：
+- 1: 基本版（シンプルな戦略）
+- 2: 高度版（グリッド分析戦略）
+
+### 手動実行
+
+PowerShellを開いて：
+
+#### 基本版の実行（シンプルな戦略）
+
+```powershell
 uv run python src/autoplay.py
 ```
 
 または仮想環境を有効化している場合：
 
-```cmd
+```powershell
 python src\autoplay.py
 ```
 
@@ -52,15 +87,15 @@ python src\autoplay.py
 - 軽量で高速
 - 初心者向け
 
-### 高度版の実行（グリッド分析戦略）
+#### 高度版の実行（グリッド分析戦略）
 
-```cmd
+```powershell
 uv run python src/autoplay_advanced.py
 ```
 
 または仮想環境を有効化している場合：
 
-```cmd
+```powershell
 python src\autoplay_advanced.py
 ```
 
@@ -169,8 +204,9 @@ await asyncio.sleep(0.15)  # この値を変更（秒）
 ├── src/
 │   ├── autoplay.py              # 基本版自動プレイスクリプト
 │   └── autoplay_advanced.py     # 高度版自動プレイスクリプト
+├── setup.ps1                    # 自動セットアップスクリプト
+├── run_autoplay.ps1             # 実行用スクリプト
 ├── pyproject.toml               # プロジェクト設定
-├── setup.bat                    # 自動セットアップスクリプト
 ├── README.md                    # このファイル
 └── .gitignore                   # Git除外設定
 ```
@@ -178,6 +214,16 @@ await asyncio.sleep(0.15)  # この値を変更（秒）
 ## 📝 ライセンス
 
 MIT License
+
+## 🤝 貢献
+
+プルリクエストを歓迎します！
+
+1. このリポジトリをフォーク
+2. フィーチャーブランチを作成 (`git checkout -b feature/amazing-feature`)
+3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
+4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
+5. プルリクエストを作成
 
 ## 🐛 問題報告
 
