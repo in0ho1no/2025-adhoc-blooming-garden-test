@@ -10,63 +10,46 @@
 
 ## 🚀 セットアップ
 
-### 方法1: 自動セットアップ（バッチファイル版・推奨）
+### 自動セットアップ（推奨）
 
 1. `setup.bat` をダブルクリック
 2. 画面の指示に従う（英語表記）
 3. 完了！
 
-> **推奨理由**: バッチファイル版は実行ポリシーの設定が不要で、確実に動作します。
 > **注意**: 文字化け防止のため、メッセージは英語で表示されます。
 
-### 方法2: 自動セットアップ（PowerShell版）
+### 手動セットアップ
 
-1. `setup.ps1` を右クリック → **「PowerShellで実行」**
-2. 画面の指示に従う
-3. 完了！
-
-> **注意**: 初回実行時に「スクリプトの実行が無効」エラーが出る場合は、以下を実行：
-> ```powershell
-> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-> ```
-> 
-> **PowerShellウィンドウが一瞬で閉じる場合**:
-> 1. プロジェクトフォルダで **Shift + 右クリック**
-> 2. 「PowerShellウィンドウをここで開く」を選択
-> 3. `.\setup.ps1` を実行
-
-### 方法3: 手動セットアップ
-
-PowerShellを開いて：
+コマンドプロンプトを開いて：
 
 #### uvを使用する場合（推奨）
 
-```powershell
-# uvのインストール（まだインストールしていない場合）
-irm https://astral.sh/uv/install.ps1 | iex
+```cmd
+REM uvのインストール（まだインストールしていない場合）
+powershell -Command "irm https://astral.sh/uv/install.ps1 | iex"
 
-# PowerShellを再起動
+REM コマンドプロンプトを再起動
 
-# 依存関係のインストール
+REM 依存関係のインストール
 uv sync
 
-# Playwrightのブラウザをインストール
+REM Playwrightのブラウザをインストール
 uv run playwright install chromium
 ```
 
 #### pipを使用する場合
 
-```powershell
-# 仮想環境の作成
+```cmd
+REM 仮想環境の作成
 python -m venv .venv
 
-# 仮想環境の有効化
-.\.venv\Scripts\Activate.ps1
+REM 仮想環境の有効化
+.venv\Scripts\activate
 
-# 依存関係のインストール
+REM 依存関係のインストール
 pip install playwright
 
-# Playwrightのブラウザをインストール
+REM Playwrightのブラウザをインストール
 playwright install chromium
 ```
 
@@ -74,11 +57,7 @@ playwright install chromium
 
 ### 簡単実行（推奨）
 
-#### バッチファイル版（確実）
 `run_autoplay.bat` をダブルクリック
-
-#### PowerShell版
-`run_autoplay.ps1` を右クリック → **「PowerShellで実行」**
 
 モード選択画面が表示されます：
 - 1: 基本版（シンプルな戦略）
@@ -86,17 +65,21 @@ playwright install chromium
 
 ### 手動実行
 
-PowerShellまたはコマンドプロンプトを開いて：
+コマンドプロンプトを開いて：
+
+### 手動実行
+
+コマンドプロンプトを開いて：
 
 #### 基本版の実行（シンプルな戦略）
 
-```powershell
+```cmd
 uv run python src/autoplay.py
 ```
 
 または仮想環境を有効化している場合：
 
-```powershell
+```cmd
 python src\autoplay.py
 ```
 
@@ -107,13 +90,13 @@ python src\autoplay.py
 
 #### 高度版の実行（グリッド分析戦略）
 
-```powershell
+```cmd
 uv run python src/autoplay_advanced.py
 ```
 
 または仮想環境を有効化している場合：
 
-```powershell
+```cmd
 python src\autoplay_advanced.py
 ```
 
@@ -222,10 +205,8 @@ await asyncio.sleep(0.15)  # この値を変更（秒）
 ├── src/
 │   ├── autoplay.py              # 基本版自動プレイスクリプト
 │   └── autoplay_advanced.py     # 高度版自動プレイスクリプト
-├── setup.bat                    # セットアップ（バッチファイル版・推奨）
-├── setup.ps1                    # セットアップ（PowerShell版）
-├── run_autoplay.bat             # 実行（バッチファイル版・推奨）
-├── run_autoplay.ps1             # 実行（PowerShell版）
+├── setup.bat                    # セットアップスクリプト
+├── run_autoplay.bat             # 実行スクリプト
 ├── pyproject.toml               # プロジェクト設定
 ├── QUICKSTART.md                # クイックガイド
 ├── README.md                    # このファイル
